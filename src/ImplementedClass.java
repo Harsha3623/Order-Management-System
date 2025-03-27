@@ -24,9 +24,9 @@ public class ImplementedClass  implements OrderManagement{
     public void viewOrder() {
     ArrayList<Order> array = Order.arr;
         array.sort(Comparator.comparing(Order::getOrderId));
-        System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------------------------");
-        System.out.println("|   Order Id    |      Order Description       |        Delivery Address           |    Order Date     |       Amount       |   Delivery Date    |   Status  |");
-        System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("|   Order Id    |      Order Description       |        Delivery Address           |     Order Date     |       Amount       |   Delivery Date    |   Status  |");
+        System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
             for (Order order : array) {
                 System.out.println(order.toString());
@@ -382,9 +382,9 @@ public class ImplementedClass  implements OrderManagement{
     //view order for sorting option
     //todo format the data in a proper manner
     public void viewOrder(ArrayList<Order> array){
-        System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------------------------");
-        System.out.println("|   Order Id    |      Order Description       |        Delivery Address           |    Order Date     |       Amount       |   Delivery Date    |   Status  |");
-        System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("|   Order Id    |      Order Description       |        Delivery Address           |     Order Date     |       Amount       |   Delivery Date    |   Status  |");
+        System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
         for (Order order : array) {
             System.out.println(order.toString());

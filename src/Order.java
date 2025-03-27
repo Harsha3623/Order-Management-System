@@ -203,16 +203,16 @@ public class Order {
         if(deliveryAddress.length()>35 && orderDescription.length()>30){
             str= deliveryAddress.substring(0,30)+"...";
             des=orderDescription.substring(0,25)+"...";
-            return String.format("|%15s|%30s|%35s|%2s|%20.2f|%20s|%11s|",orderId,des,str,orderDate,amount,deliveryDate,status);
+            return String.format("|%15s|%30s|%35s|%20s|%20.2f|%20s|%11s|",orderId,des,str,orderDate,amount,deliveryDate,status);
         }else if(deliveryAddress.length()>35){
             str= deliveryAddress.substring(0,30);
             str+="...";
-            return String.format("|%15s|%30s|%35s|%2s|%20.2f|%20s|%11s|",orderId,orderDescription,str,orderDate,amount,deliveryDate,status);
+            return String.format("|%15s|%30s|%35s|%20s|%20.2f|%20s|%11s|",orderId,orderDescription,str,orderDate,amount,deliveryDate,status);
         }else if(orderDescription.length()>30){
             des=orderDescription.substring(0,25)+"...";
             return String.format("|%15s|%30s|%35s|%20s|%20.2f|%20s|%11s|",orderId,des,deliveryAddress,orderDate,amount,deliveryDate,status);
         }else {
-            return String.format("|%15s|%30s|%35s|%2s|%20.2f|%20s|%11s|", orderId, orderDescription, deliveryAddress, orderDate, amount, deliveryDate, status);
+            return String.format("|%15s|%30s|%35s|%20s|%20.2f|%20s|%11s|", orderId, orderDescription, deliveryAddress, orderDate, amount, deliveryDate, status);
         }
     }
 }
