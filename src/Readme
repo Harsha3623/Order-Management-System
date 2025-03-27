@@ -1,0 +1,22 @@
+Static block => used for getting the hash value i.e unique orderId
+                storing all the data to the array list which can be used in entire process
+
+
+Main class = > contains the main menu which has to be displayed in the screen
+
+Order class => it is the object which is used to create and add order to the array list
+               contains getter and setter methods which is used for initialising and extracting private variables
+                provides security
+
+Order Management Interface => Contains the methods which has to be implemented and provides abstraction
+
+Implemented class => this class implements the order management interface
+                     provides the logic for the interface
+
+method overloading => viewOrder();
+
+FileWriting=> which is used for threading concept for writing to the file using the thread
+                which is used for generating report
+
+Array list which is created initially used for all the process
+    reference which is referring the array list is passed to the array list is passed for the operations
