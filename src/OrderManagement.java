@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 
 public interface OrderManagement {
-     public abstract void addOrder();
+     void addOrder();
 
-     public abstract void viewOrder();
+     void viewOrder();
 
      //method overloading
      void viewOrder(String orderID);
@@ -20,7 +20,6 @@ public interface OrderManagement {
      void exit();
 
      void sortOrder();
-
 
      void generateReport();
 }
