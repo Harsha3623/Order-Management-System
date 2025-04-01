@@ -3,10 +3,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
 public class ImplementedClass  implements OrderManagement{
 
@@ -360,7 +357,7 @@ public class ImplementedClass  implements OrderManagement{
 
                 System.out.println("Enter a Integer value.");
                 sc.nextLine();
-                continue;
+               continue;
 
             }
 
@@ -494,7 +491,7 @@ public class ImplementedClass  implements OrderManagement{
 
     @Override
     //view order for sorting option
-    public void viewOrder(ArrayList<Order> array){
+    public void viewOrder(List<Order> array){
 
         System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------");
         System.out.println("|   Order Id    |      Order Description       |        Delivery Address           |     Order Date     |       Amount       |   Delivery Date    |   Status  |");

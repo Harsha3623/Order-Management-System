@@ -7,7 +7,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        ImplementedClass im= new ImplementedClass();
+        OrderManagement im= new ImplementedClass();
 
         /*
           Menu for Order management system

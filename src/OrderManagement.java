@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public interface OrderManagement {
      void addOrder();
@@ -9,7 +10,7 @@ public interface OrderManagement {
      void viewOrder(String orderID);
 
      //view order for sorting option
-     void viewOrder(ArrayList<Order> array);
+     void viewOrder(List<Order> array);
 
      void markDelivered();
 
