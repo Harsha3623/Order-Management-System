@@ -20,3 +20,19 @@ FileWriting=> which is used for threading concept for writing to the file using 
 
 Array list which is created initially used for all the process
     reference which is referring the array list is passed to the array list is passed for the operations
+
+
+Additional Features/ Updates :
+    --> Moving pointer from any running process to main menu. Also avoid incorrect option entry by user. example if user clicks on add order and then he wants to not add the order then he can directly exit from the process to main menu
+                    using exit or -1
+    --> After sorting the array list based on the status if there is no order present then display "NO RECORDS.." in the order report.
+    -->Updating the delivery address by taking the order id by the user
+    --> If the Order id is by default present as "ORD-4digits numbers " user have the permission to enter the digits to do all the operations
+                for example if order id is -- "ORD-0002" then user can enter only integer value of "2" for performing any action
+    --> If the order is cancelled the order delivery date should be "NA" instead of "null"
+    --> The delivery date should not contain Date
+    --> if the order is delivered then the Order delivery date should contain date and time also
+    -->if the order Description or order delivery address is more then threshold length then while displaying the content for proper formatting
+    --> including the time zone like AM/PM in the order date
+    --> if the user continuously enter invalid or incorrect order id display the available order id to the user
+                -- if by seeing the order id the user enter invalid order id then the pointer/cursor moved from particular method to main menu

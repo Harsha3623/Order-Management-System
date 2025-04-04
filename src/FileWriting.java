@@ -16,8 +16,8 @@ public class FileWriting extends Thread {
     }
 
     LocalDateTime curdate = LocalDateTime.now();
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyy-MM-dd HH-mm-ss");
-    String currentDate = curdate.format(formatter);
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyy-MM-dd HH-mm-ss a");
+    String currentDate = (curdate.format(formatter)).toUpperCase();
 
     String filename = "C:\\Users\\Harsha\\Desktop\\ReportFiles\\Order_Report " + currentDate + ".txt";
 
@@ -33,24 +33,29 @@ public class FileWriting extends Thread {
 
                try(BufferedWriter writer = new BufferedWriter(new FileWriter(filename))){
 
-                   writer.write("---------------------------------------------------------------------------------------------------------------------------------------------------------------");
+                   writer.write("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
                    writer.newLine();
-                   writer.write("|   Order Id    |      Order Description       |        Delivery Address           |     Order Date     |       Amount       |   Delivery Date    |   Status  |");
+                   writer.write("|   Order Id    |      Order Description       |        Delivery Address           |        Order Date       |       Amount       |      Delivery Date      |   Status  |");
                    writer.newLine();
-                   writer.write("---------------------------------------------------------------------------------------------------------------------------------------------------------------");
+                   writer.write("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
                    writer.newLine();
+                    if(array.isEmpty()){
+                        writer.write("NO RECORDS..");
+                        writer.newLine();
 
-                   for (Order order: array) {
+                    } else {
+                        for (Order order : array) {
 
-                       //getting order details from the Order class through .toString() method
-                       String orderData = order.toString();
+                            //getting order details from the Order class through .toString() method
+                            String orderData = order.toString();
 
-                       writer.write(orderData);
-                       writer.newLine();
-                   }
+                            writer.write(orderData);
+                            writer.newLine();
+                        }
+                    }
 
-                   writer.write("---------------------------------------------------------------------------------------------------------------------------------------------------------------");
-                   System.out.println("Order Report has been generated.");
+                   writer.write("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+                   System.out.println("\nOrder Report has been generated.\n\n");
 
                }catch (IOException e) {
 

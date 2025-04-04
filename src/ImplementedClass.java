@@ -8,7 +8,7 @@ import java.util.*;
 public class ImplementedClass  implements OrderManagement{
 
     //Scanner class
-    Scanner sc = new Scanner(System.in);
+    static Scanner sc = new Scanner(System.in);
 
     //add order tot the arraylist
     @Override
@@ -25,9 +25,9 @@ public class ImplementedClass  implements OrderManagement{
     ArrayList<Order> array = Order.arr;
 
         array.sort(Comparator.comparing(Order::getOrderId));
-        System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------");
-        System.out.println("|   Order Id    |      Order Description       |        Delivery Address           |     Order Date     |       Amount       |   Delivery Date    |   Status  |");
-        System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("|   Order Id    |      Order Description       |        Delivery Address           |       Order Date        |       Amount       |      Delivery Date      |   Status  |");
+        System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
             for (Order order : array) {
 
@@ -73,8 +73,8 @@ public class ImplementedClass  implements OrderManagement{
         outer: while(true){
 
             System.out.println("Enter a valid order id: ");
-
-            String ordId = sc.nextLine();
+            int id = takeOrderID();
+            String ordId = "ORD-"+String.format("%04d",id);
             if(Order.hs.contains(ordId)){
 
                 for(Order order: Order.arr){
@@ -84,13 +84,13 @@ public class ImplementedClass  implements OrderManagement{
 
                         if((order.getStatus().trim()).equals("Cancelled")){
 
-                            System.out.println("The order cannot be delivered it is cancelled by the user..");
+                            System.out.println("\nThe order"+order.getOrderId()+" cannot be delivered it is cancelled by the user ..");
                             break;
 
                         }else if((order.getStatus().trim()).equals("Delivered")){
 
                             //Order is already delivered to the user
-                            System.out.println("The order is already delivered and cannot deliver again.");
+                            System.out.println("\nThe order"+order.getOrderId()+" is already delivered on "+order.getDeliveryDate()+" and cannot deliver again.");
                             break;
 
                         }else {
@@ -98,15 +98,16 @@ public class ImplementedClass  implements OrderManagement{
                             //else deliver the order to the customer
                             order.setStatus("Delivered");
                             LocalDateTime curDate = LocalDateTime.now();
-                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyy-MM-dd HH:mm:ss");
-                            String currentDate = curDate.format(formatter);
+                            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyy-MM-dd HH:mm:ss a");
+                            String currentDate = (curDate.format(formatter)).toUpperCase();
                             order.setDeliveryDate(currentDate);
-                            System.out.println("The order is delivered to the customer..");
+
+                            System.out.println("\nThe order "+order.getOrderId()+" is successfully delivered to customer..");
                             break;
                         }
                     }
                 }
-                System.out.println("Do you want to mark another Order as Delivered(Y/N)");
+                System.out.println("\n\nDo you want to mark another Order as Delivered(Y/N)");
 
                 while(true) {
 
@@ -121,7 +122,7 @@ public class ImplementedClass  implements OrderManagement{
 
                     } else {
 
-                        System.out.println("please enter either Yes or no option..\n");
+                        System.out.println("\nplease enter either Yes or no option..");
                     }
                 }
             }else if(count<2){
@@ -129,10 +130,12 @@ public class ImplementedClass  implements OrderManagement{
                 System.out.println("\nThe order id is not present in the orders. enter valid order id.");
                 count++;
 
-            }else if(count<5){
+            }else if(count<3){
 
-                System.out.println("\nPlease check the available order id for deleting the order details:");
+                System.out.println("\nPlease check the available order id for delivering the order:");
+
                 System.out.println("-------------Available order id-----------");
+
                 for (String s: Order.hs){
 
                     System.out.println(s);
@@ -158,8 +161,10 @@ public class ImplementedClass  implements OrderManagement{
 
         outer: while(true){
 
-            System.out.println("enter valid order id: ");
-            String orderId = sc.nextLine();
+            System.out.println("\nEnter valid order id: ");
+            int id = takeOrderID();
+            //formatting the input into required order id format
+            String orderId = "ORD-"+String.format("%04d",id);
 
             if(Order.hs.contains(orderId)){
 
@@ -167,22 +172,23 @@ public class ImplementedClass  implements OrderManagement{
 
                     if((order.getOrderId().trim()).equals(orderId)){
                         //what is the order is delivered
-                        //need to print the order is delievred
+                        //need to print the order is delivered
                         if((order.getStatus().trim()).equals("Delivered")){
 
-                            System.out.println("The order is delivered and cannot be cancelled.");
+                            System.out.println("\nThe order "+order.getOrderId()+" is delivered on "+order.getDeliveryDate()+" and cannot be cancelled.");
                         }
                         else if((order.getStatus().trim()).equals("In Progress")){
 
-                        order.setStatus("Cancelled");
-                        //String str = null;
-                        order.setDeliveryDate((String) null);
-                            System.out.println("The order has been cancelled successfully.");
+                            order.setStatus("Cancelled");
+                            //String str = null;
+                            //updating from null to NA
+                            order.setDeliveryDate("NA");
+                            System.out.println("\nThe order "+order.getOrderId()+" cancelled successfully.");
 
                         }else {
 
                             //if order is cancelled already by the user
-                            System.out.println("Order has been already cancelled.");
+                            System.out.println("\nOrder "+order.getOrderId()+" has been already cancelled.");
 
                         }
                     }
@@ -190,7 +196,7 @@ public class ImplementedClass  implements OrderManagement{
 
                 while(true){
 
-                    System.out.println("Do you want to cancel another Order(Y/N)");
+                    System.out.println("\n\nDo you want to cancel another Order(Y/N)");
                     char ch = sc.nextLine().charAt(0);
 
                     if(ch=='Y'||ch=='y'){
@@ -203,23 +209,24 @@ public class ImplementedClass  implements OrderManagement{
 
                     }else {
 
-                        System.out.println("Please enter either yes(Y) or NO(N) option.");
+                        System.out.println("\nPlease enter either yes(Y) or NO(N) option.");
 
                     }
                 }
-            }else if(count<3){
-                System.out.println("The order id is not present in the orders. enter valid order id.");
+            }else if(count<2){
+                System.out.println("\nThe order id is not present in the orders. enter valid order id.");
                 count++;
-            }else if(count<5){
+            }else if(count<3){
 
-                System.out.println("Please check the available order id for deleting the order details:");
+                System.out.println("\nPlease check the available order id for Canceling the order:");
                 System.out.println("-------------Available order id-----------");
                 for (String s: Order.hs){
                     System.out.println(s);
                 }
+                System.out.println("\n");
                 count++;
             }else {
-                System.out.println("Multiple incorrect  order id is entered \nGoing back to main menu\n\n");
+                System.out.println("\nMultiple incorrect  order id is entered \nGoing back to main menu\n\n");
                 break;
             }
         }
@@ -232,31 +239,32 @@ public class ImplementedClass  implements OrderManagement{
 
         outer: while (true){
 
-            System.out.println("Enter a valid order id for deleting the order:");
-            String orderId = sc.nextLine();
+            System.out.println("\nEnter a valid order id for deleting the order:");
+            int id = takeOrderID();
+            String orderId = "ORD-"+String.format("%04d",id);
 
             if(Order.hs.contains(orderId)){
 
                 for(Order order: Order.arr){
 
-                    if((order.getOrderId().trim()).equals(orderId)){
+                    if((order.getOrderId().trim()).equals(orderId)) {
                         //double authentication while deleting the order details
 
                         while(true) {
-                            System.out.println("Confirm to Delete the order Details(y/n)");
+                            System.out.println("\nConfirm to Delete the order Details(y/n)");
                             char cnfrm = sc.nextLine().charAt(0);
 
                             if (cnfrm == 'y' | cnfrm == 'Y') {
 
                                 Order.arr.remove(order);
-                                System.out.println("The order has been removed successfully");
+                                System.out.println("The order "+orderId+" has been removed successfully");
                                 //need to remove the order id from hash set for better usage after deleting
                                 //in the array list
                                 Order.hs.remove(orderId);
                                 break;
 
                             } else if (cnfrm == 'n' | cnfrm == 'N') {
-                                System.out.println("The oder is not deleted");
+                                System.out.println("The oder "+orderId+" is not deleted");
                                 break;
 
                             } else {
@@ -268,7 +276,7 @@ public class ImplementedClass  implements OrderManagement{
                 }
                 while (true){
 
-                    System.out.println("Do you want to delete another order(Y/N)");
+                    System.out.println("\n\nDo you want to delete another order(Y/N)");
                     char ch = sc.nextLine().charAt(0);
                     if(ch=='Y' | ch=='y'){
                         continue outer;
@@ -279,17 +287,17 @@ public class ImplementedClass  implements OrderManagement{
 
                     }else {
 
-                        System.out.println("Enter either yes or no option..");
+                        System.out.println("\nEnter either yes or no option..");
                     }
                 }
             }else if(count<2){
 
-                System.out.println("The order id is not present in the orders. enter valid order id.");
+                System.out.println("\nThe order id is not present in the orders.");
                 count++;
 
-            }else if(count<5){
+            }else if(count<3){
 
-                System.out.println("Please check the available order id for deleting the order details:");
+                System.out.println("\nPlease check the available order id for deleting the order details:");
                 System.out.println("-------------Available order id-----------");
                 for (String s: Order.hs){
                     System.out.println(s);
@@ -298,7 +306,7 @@ public class ImplementedClass  implements OrderManagement{
 
             }else {
 
-                System.out.println("Multiple incorrect  order id is entered \nGoing back to main menu\n\n");
+                System.out.println("\nMultiple incorrect  order id is entered \nGoing back to main menu\n\n");
                 break;
 
             }
@@ -330,7 +338,7 @@ public class ImplementedClass  implements OrderManagement{
     @Override
     public void sortOrder() {
 
-        while(true) {
+        outer: while(true) {
 
             System.out.println("----------Chose Sort Order property---------");
             System.out.println("1--> OrderID");
@@ -341,33 +349,38 @@ public class ImplementedClass  implements OrderManagement{
             System.out.println("6--> Delivery Date Time ");
             System.out.println("7--> Exit");
 
+            ArrayList<Integer> numbers= new ArrayList<>(Arrays.asList(1,2,3,4,5,6,7));
             int number;
 
-            try {
+            while(true) {
+                try {
 
-                number = sc.nextInt();
-                sc.nextLine();
+                    number = sc.nextInt();
+                    sc.nextLine();
+                    if(numbers.contains(number)){
+                        if(number==7){
+                            break outer;
+                        }
+                        break;
+                    }else {
+                        System.out.println("Please enter above options only.");
+                    }
 
-                if(number==7){
+                } catch (InputMismatchException e) {
 
-                    break;
+                    System.out.println("Please enter above options only.");
+                    sc.nextLine();
+
                 }
-
-            }catch (InputMismatchException e){
-
-                System.out.println("Enter a Integer value.");
-                sc.nextLine();
-               continue;
-
             }
 
             int ascOrDesc;
 
-            while(true) {
+            System.out.println("----------Chose Sort Order property---------");
+            System.out.println("1--> Ascending");
+            System.out.println("2--> Descending");
 
-                System.out.println("----------Chose Sort Order property---------");
-                System.out.println("1--> Ascending");
-                System.out.println("2--> Descending");
+            while(true) {
 
                 //handling input mismatch exception
                 try {
@@ -379,76 +392,84 @@ public class ImplementedClass  implements OrderManagement{
 
                         break;
                     }else {
-                        System.out.println("enter a either 1 or 2");
+                        System.out.println("Please enter above options only.");
 
                     }
 
                 }catch (InputMismatchException e){
 
-                    System.out.println("Enter Integer Value .");
+                    System.out.println("Please enter above options only.");
                     sc.nextLine();
                 }
             }
             //creating the local array list for sorting purpose
             ArrayList<Order> array = Order.arr;
 
+            //providing new line
+            System.out.println("\n\n");
             switch (number){
                 case 1:
                     //sort Based On user inputs;
                     if(ascOrDesc==1) {
 
                         array.sort(Comparator.comparing(Order::getOrderId));
+                        System.out.println("Successfully sorted by order-id in Ascending order\n");
                     }else{
 
                         array.sort(Comparator.comparing(Order::getOrderId).reversed());
+                        System.out.println("Successfully sorted by order-id in Descending order\n");
                     }
 
                     viewOrder(array);
-                    break;
+                    break outer;
 
                 case 2:
 
                     if(ascOrDesc==1){
 
                         array.sort(Comparator.comparing(Order::getOrderDescription));
-
+                        System.out.println("Successfully sorted by Order Description in Ascending order\n");
                     }else {
 
                         array.sort(Comparator.comparing(Order::getOrderDescription).reversed());
+                        System.out.println("Successfully sorted by Order Description in Descending order\n");
                     }
 
                     viewOrder(array);
-                    break;
+                    break outer;
 
                 case 3:
 
                     if(ascOrDesc==1){
-
+                        System.out.println("Successfully sorted by Delivery address in Ascending order\n");
                         array.sort(Comparator.comparing(Order::getDeliveryAddress));
 
                     }else{
 
                         array.sort(Comparator.comparing(Order::getDeliveryAddress).reversed());
-
+                        System.out.println("Successfully sorted by Delivery address in Descending order\n");
                     }
 
                     viewOrder(array);
-                    break;
+                    break outer;
 
                 case 4:
 
                     if(ascOrDesc==1){
 
-                        array.sort(Comparator.comparing(Order::getOrderDate));
 
+                        array.sort(Comparator.comparing(Order::getOrderDateForSorting));
+
+                        System.out.println("Successfully sorted by Order date in Ascending order\n");
                     }else{
 
-                        array.sort(Comparator.comparing(Order::getOrderDate).reversed());
+                        array.sort(Comparator.comparing(Order::getOrderDateForSorting).reversed());
 
+                        System.out.println("Successfully sorted by Order date in Descending order\n");
                     }
 
                     viewOrder(array);
-                    break;
+                    break outer;
 
                 case 5:
 
@@ -456,29 +477,33 @@ public class ImplementedClass  implements OrderManagement{
 
                         array.sort(Comparator.comparingDouble(Order::getAmount));
 
+                        System.out.println("Successfully sorted by Amount in Ascending order\n");
                     }else{
 
                         array.sort(Comparator.comparingDouble(Order::getAmount).reversed());
 
+                        System.out.println("Successfully sorted by Amount in Descending order\n");
                     }
 
                     viewOrder(array);
-                    break;
+                    break outer;
 
                 case 6:
 
                     if(ascOrDesc==1){
 
-                        array.sort(Comparator.comparing(Order::getDeliveryDate));
+                        array.sort(Comparator.comparing(Order::getDeliveryDateForSorting));
+                        System.out.println("Successfully sorted by Delivery Date in Ascending order\n");
 
                     }else{
 
-                        array.sort(Comparator.comparing(Order::getDeliveryDate).reversed());
+                        array.sort(Comparator.comparing(Order::getDeliveryDateForSorting).reversed());
+                        System.out.println("Successfully sorted by Delivery Date in Descending order\n");
 
                     }
 
                     viewOrder(array);
-                    break;
+                    break outer;
 
                 default:
                     System.out.println("Enter a proper value ");
@@ -493,10 +518,9 @@ public class ImplementedClass  implements OrderManagement{
     //view order for sorting option
     public void viewOrder(List<Order> array){
 
-        System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------");
-        System.out.println("|   Order Id    |      Order Description       |        Delivery Address           |     Order Date     |       Amount       |   Delivery Date    |   Status  |");
-        System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------");
-
+        System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("|   Order Id    |      Order Description       |        Delivery Address           |       Order Date        |       Amount       |      Delivery Date      |   Status  |");
+        System.out.println("-------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
         for (Order order : array) {
 
             System.out.println(order.toString());
@@ -509,16 +533,31 @@ public class ImplementedClass  implements OrderManagement{
     @Override
     public void generateReport() {
 
-        while(true) {
+        outer: while(true) {
 
             System.out.println("-------------Choose Report Generation Option-----------");
             System.out.println("1--> Export All");
             System.out.println("2--> By Status");
             System.out.println("3-->exit");
 
-            int number = sc.nextInt();
-            sc.nextLine();
+            int number;
+            while (true) {
+                try {
 
+                    number = sc.nextInt();
+                    sc.nextLine();
+
+                    if(number==1 | number==2 | number==3){
+                        break;
+                    }else {
+                        System.out.println("Please enter the above options only..");
+                    }
+                }catch (InputMismatchException e){
+                    System.out.println("Please enter the above options only..");
+                    sc.nextLine();
+
+                }
+            }
             if(number==3){
 
                 break;
@@ -535,7 +574,7 @@ public class ImplementedClass  implements OrderManagement{
 
                     //method for generating report
                     writeToFile(array);
-                    break;
+                    break outer;
 
                 case 2:
                     //based on status
@@ -543,9 +582,24 @@ public class ImplementedClass  implements OrderManagement{
                     System.out.println("1--> In Progress");
                     System.out.println("2--> Delivered");
                     System.out.println("3--> Cancelled");
+                    //handling exception and also iterating till user enter correct value
+                    int choice ;
+                    while(true) {
+                        try {
 
-                    int choice = sc.nextInt();
-                    sc.nextLine();
+                            choice = sc.nextInt();
+                            sc.nextLine();
+                            if(choice==1 | choice==2 | choice==3 ){
+                                break;
+                            } else {
+                                System.out.println("Please enter the above options only..");
+                            }
+
+                        } catch (InputMismatchException e) {
+                            System.out.println("Please enter the above options only..");
+                            sc.nextLine();
+                        }
+                    }
                     //for storing the orders based on the user input
                     ArrayList<Order> arrayByStatus;
                     switch (choice){
@@ -553,34 +607,40 @@ public class ImplementedClass  implements OrderManagement{
                         case 1:
 
                             arrayByStatus=sortBasedOnStatus(Order.arr,"In Progress");
+                            //check whether it is empty or not
 
-                            writeToFile(arrayByStatus);
+                                writeToFile(arrayByStatus);
 
-                            break;
+                            break outer;
 
                         case 2:
 
                             arrayByStatus = sortBasedOnStatus(Order.arr,"Delivered");
 
-                            writeToFile(arrayByStatus);
+                            //check whether it is empty or not
 
-                            break;
+                                writeToFile(arrayByStatus);
+
+                            break outer;
 
                         case 3:
 
                             arrayByStatus = sortBasedOnStatus(Order.arr,"Cancelled");
 
-                            writeToFile(arrayByStatus);
+                            //check whether it is empty or not
 
-                            break;
+                                writeToFile(arrayByStatus);
+
+                            break outer;
 
                         default:
-                            System.out.println("Enter a correct value.");
+                            System.out.println("\nEnter above options only.");
                     }
+                    //case 2 break
                     break;
 
                 default:
-                    System.out.println("enter a proper value.");
+                    System.out.println("Enter above options only.");
             }
         }
     }
@@ -592,7 +652,7 @@ public class ImplementedClass  implements OrderManagement{
 
         for(Order order: arr){
 
-            if(order.getStatus().trim().equals(str)){
+            if(order.getStatus().trim().equals(str)) {
 
                 array.add(order);
             }
@@ -620,5 +680,94 @@ public class ImplementedClass  implements OrderManagement{
             throw new RuntimeException(e);
 
         }
+    }
+
+    //updating the delivery address of the order
+    @Override
+    public void updateDeliveryAddress() {
+        System.out.println("Enter a Order ID: (-1 to return to the main method)");
+        String ordId;
+        int count=1,input;
+        //looping till update happens
+
+        while(true) {
+            //taking the user input
+
+            input= takeOrderID();
+            if(input==-1){
+                return;
+            }
+
+            //format the orderID in the proper format for fetching the details
+            ordId="ORD-"+String.format("%04d",input);
+            //ordId = sc.nextLine();
+
+            //checking whether it is present in the hashset
+            if (Order.hs.contains(ordId)) {
+                for(Order order: Order.arr){
+
+                    if((order.getOrderId().trim()).equals(ordId)){
+
+                        //reading the updated address from user and updating it
+                        System.out.println("Enter Updated Delivery Address:");
+                        String deliveryAddress = sc.nextLine();
+                        if(deliveryAddress.trim().equals("exit")){
+                            return;
+                        }
+
+                        order.setDeliveryAddress(deliveryAddress);
+                        System.out.println("\nThe Address has been updated.\n");
+                        viewOrder(ordId);
+
+                    }
+                }
+                break;
+            } else if(count<2){
+
+                count++;
+                System.out.println("Enter a valid order id");
+
+            } else if (count<3) {
+
+                count++;
+                System.out.println("Available Order ID");
+
+                for(String s: Order.hs){
+
+                    System.out.println(s);
+
+                }
+
+                System.out.println("Enter a valid order id");
+
+            }else{
+
+                System.out.println("\nMultiple incorrect  order id is entered \nGoing back to main menu\n\n");
+                break;
+            }
+        }
+
+    }
+
+
+    //taking the orderID from the user  and avoiding the exception raised when user enter string value
+    public static int takeOrderID(){
+        int id;
+
+        while(true) {
+
+            try {
+                id = sc.nextInt();
+                sc.nextLine();
+                return id;
+
+            } catch (InputMismatchException e) {
+
+                System.out.println("Enter a valid order id");
+                sc.nextLine();
+
+            }
+        }
+
     }
 }

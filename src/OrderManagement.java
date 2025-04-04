@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+
 import java.util.List;
 
 public interface OrderManagement {
@@ -23,4 +23,6 @@ public interface OrderManagement {
      void sortOrder();
 
      void generateReport();
+
+     void updateDeliveryAddress();
 }

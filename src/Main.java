@@ -5,9 +5,9 @@ public class Main {
 
     public static Scanner sc = new Scanner(System.in);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InputMismatchException{
 
-        OrderManagement im= new ImplementedClass();
+        OrderManagement im = new ImplementedClass();
 
         /*
           Menu for Order management system
@@ -36,34 +36,68 @@ public class Main {
 
             System.out.println("8--> Generate Report");
 
-            System.out.println("9--> Exit");
+            System.out.println("9--> Update the Delivery address");
+
+            System.out.println("10--> Exit");
 
             System.out.println("Enter your choice");
 
             int input;
-            //for handling the input mismatch exception
-            // so if a user enters any other value then it will continue again
-            try {
 
-                input = sc.nextInt();
-                sc.nextLine();
+            //for validating the input of user
+            ArrayList<Integer> arr = new ArrayList<>(Arrays.asList(1,2,3,4,5,6,7,8,9,10));
 
-            }catch (InputMismatchException e){
+            //for iterating through the input until it gets a correct value
+            while(true) {
+                //for handling the input mismatch exception
+                // so if a user enters any other value then it will continue again
+                try {
 
-                System.out.println("Enter a proper value");
-                sc.nextLine();
-                continue;
+                    input = sc.nextInt();
+                    sc.nextLine();
+                    if(arr.contains(input)){
+                        break;
+                    }
+                    else {
+                        System.out.println("Please select from the above option only!..");
+                    }
 
+                } catch (InputMismatchException e) {
+                    System.out.println("Please select from the above option only!..");
+
+                    sc.nextLine();
+                    //continue;
+
+                }
             }
 
             switch (input){
 
                 case 1:
-                    im.addOrder();
+                    orderOuter: while(true){
+                        System.out.println();
+                        im.addOrder();
+
+                        System.out.println("Do you want to enter more order details(Y/N)");
+                        while(true) {
+                            char ch = sc.nextLine().charAt(0);
+                            if (ch == 'n' || ch == 'N') {
+                                System.out.println("\n\n");
+                                break orderOuter;
+                            } else if (!(ch == 'y' || ch == 'Y')) {
+                                System.out.println("Enter either Y/N..");
+                            }else{
+                                continue orderOuter;
+                            }
+                        }
+                    }
+
+
                     break;
 
 
                 case 2:
+                    System.out.println("\n");
                     im.viewOrder();
                     break;
 
@@ -74,22 +108,25 @@ public class Main {
 
                     while(true) {
 
-                        System.out.println("Enter a order id:");
-                        String ordId = sc.nextLine();
-                        if (containsIgnoreCase(Order.hs,ordId)) {
+                        System.out.println("\nEnter a order id:");
+                        int id = ImplementedClass.takeOrderID();
+                        //formatting input into order id form i.e ORD-0000 form
+                        String ordId = "ORD-"+String.format("%04d",id);
 
+                        if (containsIgnoreCase(Order.hs,ordId)) {
+                            System.out.println();
                             im.viewOrder(ordId);
                             break;
                         }else{
 
                             count++;
-                            if(count<=2) {
+                            if(count<=1) {
 
                                 System.out.println("Enter a valid Order ID ");
 
-                            }else if(count<4){
+                            } else if(count<3){
 
-                                System.out.println("Please check the available Order id here and then enter a proper orderID:");
+                                System.out.println("Please check the available Order id here and then enter orderID:");
                                 System.out.println("-------Available order id--------");
                                 for(String s: Order.hs){
 
@@ -102,7 +139,7 @@ public class Main {
                                 System.out.println("Multiple Incorrect order id is entered \n Going back to the main menu.");
                                 break;
                             }
-                            //continue;
+
                         }
                     }
                     break;
@@ -116,6 +153,7 @@ public class Main {
                     break;
 
                 case 6:
+                    System.out.println();
                     im.markDelivered();
                     break;
 
@@ -128,12 +166,17 @@ public class Main {
                     break;
 
                 case 9:
+                    im.updateDeliveryAddress();
+                    break;
+
+                case 10:
                     im.exit();
                     break outer;
 
                 default:
-                    System.out.println("Please enter a valid number in the menu!...");
+                    System.out.println("Please select from the above option only!..");
             }
+
         }
 
     }
@@ -142,12 +185,15 @@ public class Main {
         //for checking order id ignoring case for view order by id
         for(String s: hs){
 
-            if(s.equalsIgnoreCase(ordId)){
+            if(s.equalsIgnoreCase(ordId)) {
+
                 return true;
             }
 
         }
         return false;
     }
+
+
 
 }
